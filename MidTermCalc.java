@@ -28,8 +28,10 @@ public class MidTermCalc extends JFrame {
         JTextField text = new JTextField(25);
         text.setText("0");
         text.setEditable(false);
+        panel.setBackground(Color.darkGray);
 
         panel.add(text);
+
 
         add(panel, BorderLayout.NORTH);
     }
@@ -61,6 +63,33 @@ public class MidTermCalc extends JFrame {
         JButton equal = new JButton("=");
         JButton clear = new JButton("C");
         JButton delete = new JButton("←");
+
+        //버튼 색깔 변경
+        num0.setBackground(Color.GRAY); num0.setForeground(Color.WHITE);
+        num1.setBackground(Color.GRAY); num1.setForeground(Color.WHITE);
+        num2.setBackground(Color.GRAY); num2.setForeground(Color.WHITE);
+        num3.setBackground(Color.GRAY); num3.setForeground(Color.WHITE);
+        num4.setBackground(Color.GRAY); num4.setForeground(Color.WHITE);
+        num5.setBackground(Color.GRAY); num5.setForeground(Color.WHITE);
+        num6.setBackground(Color.GRAY); num6.setForeground(Color.WHITE);
+        num7.setBackground(Color.GRAY); num7.setForeground(Color.WHITE);
+        num8.setBackground(Color.GRAY); num8.setForeground(Color.WHITE);
+        num9.setBackground(Color.GRAY); num9.setForeground(Color.WHITE);
+        num0.setBackground(Color.GRAY); remainder.setForeground(Color.WHITE);
+        signs.setBackground(Color.GRAY); signs.setForeground(Color.WHITE);
+        dot.setBackground(Color.GRAY); dot.setForeground(Color.WHITE);
+
+        plus.setBackground(Color.DARK_GRAY); plus.setForeground(Color.WHITE);
+        minus.setBackground(Color.DARK_GRAY); minus.setForeground(Color.WHITE);
+        multiply.setBackground(Color.DARK_GRAY); multiply.setForeground(Color.WHITE);
+        divide.setBackground(Color.DARK_GRAY); divide.setForeground(Color.WHITE);
+        remainder.setBackground(Color.DARK_GRAY); remainder.setForeground(Color.WHITE);
+        equal.setBackground(Color.DARK_GRAY); equal.setForeground(Color.WHITE);
+        clear.setBackground(Color.DARK_GRAY); clear.setForeground(Color.WHITE);
+        delete.setBackground(Color.DARK_GRAY); delete.setForeground(Color.WHITE);
+
+
+
 
         panel.add(remainder); panel.add(clear); panel.add(divide); panel.add(delete);
         panel.add(num7); panel.add(num8); panel.add(num9); panel.add(multiply);
