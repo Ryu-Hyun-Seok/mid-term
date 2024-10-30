@@ -31,12 +31,11 @@ public class MidTermCalc extends JFrame {
         add(panel, BorderLayout.CENTER);
     }
     void showSouth() {
-        JPanel panel = new JPanel();
-        JPanel p1 = new JPanel();
-        JPanel p2 = new JPanel();
+        JPanel panel = new JPanel(new GridLayout(0, 2));
+        JPanel p1 = new JPanel(new GridLayout(4,3));
+        JPanel p2 = new JPanel(new GridLayout(4,1));
 
         //넘버패드
-        p1.setLayout(new GridLayout(4,3));
         JButton num0 = new JButton("0");
         JButton num1 = new JButton("1");
         JButton num2 = new JButton("2");
@@ -56,7 +55,23 @@ public class MidTermCalc extends JFrame {
         p1.add(num1); p1.add(num2); p1.add(num3);
         p1.add(signs); p1.add(num0); p1.add(dot);
 
+
+
+        //넘버패드 연산자 부분
+        JButton plus = new JButton("+");
+        JButton minus = new JButton("-");
+        JButton multiply = new JButton("×");
+        JButton divide = new JButton("÷");
+        JButton remainder = new JButton("%");
+        JButton equal = new JButton("=");
+        JButton clear = new JButton("C");
+        JButton clearEntry = new JButton("CE");
+        JButton delete = new JButton("←");
+
+        p2.add(plus); p2.add(minus); p2.add(multiply); p2.add(divide);
+
         panel.add(p1);
+        panel.add(p2);
 
         add(panel, BorderLayout.SOUTH);
 
