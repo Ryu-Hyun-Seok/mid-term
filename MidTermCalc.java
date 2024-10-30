@@ -12,7 +12,7 @@ public class MidTermCalc extends JFrame {
         setTitle("계산기");
 
         setLayout(new BorderLayout());
-        showCenter(); showSouth();
+        showNorth(); showCenter();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(300, 500);
         setVisible(true);
@@ -21,21 +21,24 @@ public class MidTermCalc extends JFrame {
     /**
      * 계산결과 표시
      */
-    void showCenter() {
+    void showNorth() {
         JPanel panel = new JPanel();
 
         //숫자창
-        JTextField text = new JTextField(10);
+        JTextField text = new JTextField(25);
+        text.setText("0");
+        text.setEditable(false);
+
         panel.add(text);
 
-        add(panel, BorderLayout.CENTER);
+        add(panel, BorderLayout.NORTH);
     }
-    void showSouth() {
-        JPanel panel = new JPanel(new GridLayout(0, 2));
-        JPanel p1 = new JPanel(new GridLayout(4,3));
-        JPanel p2 = new JPanel(new GridLayout(4,1));
+    void showCenter() {
+        JPanel panel = new JPanel(new GridLayout(5,4));
 
-        //넘버패드
+        panel.setSize(2, 300);
+
+        //넘버패드 숫자키 부분
         JButton num0 = new JButton("0");
         JButton num1 = new JButton("1");
         JButton num2 = new JButton("2");
@@ -49,14 +52,6 @@ public class MidTermCalc extends JFrame {
         JButton signs = new JButton("+/-");
         JButton dot = new JButton(".");
 
-
-        p1.add(num7); p1.add(num8); p1.add(num9);
-        p1.add(num4); p1.add(num5); p1.add(num6);
-        p1.add(num1); p1.add(num2); p1.add(num3);
-        p1.add(signs); p1.add(num0); p1.add(dot);
-
-
-
         //넘버패드 연산자 부분
         JButton plus = new JButton("+");
         JButton minus = new JButton("-");
@@ -65,15 +60,16 @@ public class MidTermCalc extends JFrame {
         JButton remainder = new JButton("%");
         JButton equal = new JButton("=");
         JButton clear = new JButton("C");
-        JButton clearEntry = new JButton("CE");
         JButton delete = new JButton("←");
 
-        p2.add(plus); p2.add(minus); p2.add(multiply); p2.add(divide);
+        panel.add(remainder); panel.add(clear); panel.add(divide); panel.add(delete);
+        panel.add(num7); panel.add(num8); panel.add(num9); panel.add(multiply);
+        panel.add(num4); panel.add(num5); panel.add(num6); panel.add(minus);
+        panel.add(num1); panel.add(num2); panel.add(num3); panel.add(plus);
+        panel.add(signs); panel.add(num0); panel.add(dot); panel.add(equal);
 
-        panel.add(p1);
-        panel.add(p2);
 
-        add(panel, BorderLayout.SOUTH);
+        add(panel, BorderLayout.CENTER);
 
 
     }
