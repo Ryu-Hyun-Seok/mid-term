@@ -124,6 +124,12 @@ public class MidTermCalc extends JFrame {
 
         //결과창에 숫자를 추가하는 코드
         ActionListener listenerNumPad = e -> {
+            if (operator == "=") {
+                t1.setText(null);
+                t2.setText(null);
+                firstNumber = 0; secondNumber = 0;
+                operator = "";
+            }
             t1.setText(t1.getText() + e.getActionCommand());
             firstNumber = Double.parseDouble(t1.getText());
         };
@@ -205,28 +211,26 @@ public class MidTermCalc extends JFrame {
                 double result;
                 switch (operator) {
                     case "+":
-                        result = firstNumber + secondNumber;
+                        result = secondNumber + firstNumber;
                         break;
                     case "-":
-                        result = firstNumber - secondNumber;
+                        result = secondNumber - firstNumber;
                         break;
                     case "×":
-                        result = firstNumber * secondNumber;
+                        result = secondNumber * firstNumber;
                         break;
                     case "÷":
-                        if (secondNumber == 0) {
-                            t1.setText("오류");  // 0으로 나누기 방지
+                        if (firstNumber == 0) {
+                            t1.setText("You can't divide it by zero");  // 0으로 나누기 방지
                             return;
                         }
-                        result = firstNumber / secondNumber;
-                        break;
-                    case "%":
-                        result = firstNumber % secondNumber;
+                        result = secondNumber / firstNumber;
                         break;
                     default:
                         result = secondNumber;
                 }
                 t1.setText(Double.toString(result));
+                operator = e.getActionCommand();
             }
         };
         equal.addActionListener(listenerEqual);
