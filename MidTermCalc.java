@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 
@@ -29,7 +30,6 @@ public class MidTermCalc extends JFrame {
 
         //숫자창
         text = new JTextField(25);
-        text.setText("0");
         text.setEditable(false);
         panel.setBackground(Color.darkGray);
 
@@ -115,6 +115,23 @@ public class MidTermCalc extends JFrame {
         num7.addActionListener(listenerNumPad);
         num8.addActionListener(listenerNumPad);
         num9.addActionListener(listenerNumPad);
+        dot.addActionListener(listenerNumPad);
+
+        // @see 부호 변환 chatGPT 참조
+        ActionListener listenerChangeSign = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String currentText = text.getText();
+                if (!currentText.isEmpty()) {
+                    if (currentText.startsWith("-")) {
+                        text.setText(currentText.substring(1));  // 음수 -> 양수로 변경
+                    } else {
+                        text.setText("-" + currentText);  // 양수 -> 음수로 변경
+                    }
+                }
+            }
+        };
+        signs.addActionListener(listenerChangeSign);
 
     }
 
