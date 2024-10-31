@@ -1,10 +1,13 @@
 import java.awt.*;
+import java.awt.event.ActionListener;
 import javax.swing.*;
 
 /**
  * 중간고사 계산기 만들기
  */
 public class MidTermCalc extends JFrame {
+    JTextField text = new JTextField();
+
     /**
      * 계산기
      */
@@ -25,7 +28,7 @@ public class MidTermCalc extends JFrame {
         JPanel panel = new JPanel();
 
         //숫자창
-        JTextField text = new JTextField(25);
+        text = new JTextField(25);
         text.setText("0");
         text.setEditable(false);
         panel.setBackground(Color.darkGray);
@@ -100,8 +103,21 @@ public class MidTermCalc extends JFrame {
 
         add(panel, BorderLayout.CENTER);
 
+        //결과창에 숫자를 추가하는 코드
+        ActionListener listenerNumPad = e -> {text.setText(text.getText() + e.getActionCommand());};
+        num0.addActionListener(listenerNumPad);
+        num1.addActionListener(listenerNumPad);
+        num2.addActionListener(listenerNumPad);
+        num3.addActionListener(listenerNumPad);
+        num4.addActionListener(listenerNumPad);
+        num5.addActionListener(listenerNumPad);
+        num6.addActionListener(listenerNumPad);
+        num7.addActionListener(listenerNumPad);
+        num8.addActionListener(listenerNumPad);
+        num9.addActionListener(listenerNumPad);
 
     }
+
     public static void main(String[] args) {
         new MidTermCalc();
     }
