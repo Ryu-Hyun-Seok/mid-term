@@ -12,6 +12,7 @@ public class MidTermCalc extends JFrame {
     private String operator = "";  // 현재 선택된 연산자
     private double firstNumber = 0;  // 첫 번째 숫자 저장
     private double secondNumber = 0;
+    private boolean turn = false;
 
     /**
      * 계산기
@@ -130,6 +131,10 @@ public class MidTermCalc extends JFrame {
                 firstNumber = 0; secondNumber = 0;
                 operator = "";
             }
+            if (turn == true) {
+                t1.setText(null);
+                turn = false;
+            }
             t1.setText(t1.getText() + e.getActionCommand());
             firstNumber = Double.parseDouble(t1.getText());
         };
@@ -172,12 +177,35 @@ public class MidTermCalc extends JFrame {
         //연산 기능 구현
         ActionListener listenerOperator = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                operator = e.getActionCommand();
-                if (t2.getText().isEmpty()) {
-                    secondNumber = firstNumber;
+
+                if (turn == true){
+                    operator = e.getActionCommand();
+                    t2.setText(secondNumber + operator);
                 }
-                t2.setText(secondNumber + operator);
-                t1.setText(null);
+
+                if (turn == false) {
+                    turn = true;
+                    switch (operator) {
+                        case "+":
+                            secondNumber = secondNumber + firstNumber;
+                            break;
+                        case "-":
+                            secondNumber = secondNumber - firstNumber;
+                            break;
+                        case "×":
+                            secondNumber = secondNumber * firstNumber;
+                            break;
+                        case "÷":
+                            secondNumber = secondNumber / firstNumber;
+                            break;
+                        default:
+                            secondNumber = firstNumber;
+
+                    }
+                    operator = e.getActionCommand();
+                    t2.setText(Double.toString(secondNumber) + operator);
+                    t1.setText(Double.toString(secondNumber));
+                }
 
             }
         };
