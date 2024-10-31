@@ -7,7 +7,11 @@ import javax.swing.*;
  * 중간고사 계산기 만들기
  */
 public class MidTermCalc extends JFrame {
-    JTextField text = new JTextField();
+    JTextField t1 = new JTextField();
+    JTextField t2 = new JTextField();
+    private String operator = "";  // 현재 선택된 연산자
+    private double firstNumber = 0;  // 첫 번째 숫자 저장
+    private boolean isOperatorClicked = false;  // 연산자가 클릭되었는지 여부
 
     /**
      * 계산기
@@ -26,14 +30,23 @@ public class MidTermCalc extends JFrame {
      * 계산결과 표시
      */
     void showNorth() {
-        JPanel panel = new JPanel();
-
+        JPanel panel = new JPanel(new GridLayout(2,1));
         //숫자창
-        text = new JTextField(25);
-        text.setEditable(false);
+        t1 = new JTextField(25);
+        t2 = new JTextField(25);
+        t1.setEditable(false);
+        t2.setEditable(false);
         panel.setBackground(Color.darkGray);
 
-        panel.add(text);
+        Font segoeUIFont = new Font("Segoe UI", Font.PLAIN, 24);
+
+        t1.setFont(segoeUIFont);
+        t2.setFont(segoeUIFont);
+        t1.setHorizontalAlignment(JTextField.RIGHT);
+
+        panel.add(t2);
+        panel.add(t1);
+
 
 
         add(panel, BorderLayout.NORTH);
@@ -67,29 +80,34 @@ public class MidTermCalc extends JFrame {
         JButton clear = new JButton("C");
         JButton delete = new JButton("←");
 
-        //버튼 색깔 변경
-        num0.setBackground(Color.GRAY); num0.setForeground(Color.WHITE);
-        num1.setBackground(Color.GRAY); num1.setForeground(Color.WHITE);
-        num2.setBackground(Color.GRAY); num2.setForeground(Color.WHITE);
-        num3.setBackground(Color.GRAY); num3.setForeground(Color.WHITE);
-        num4.setBackground(Color.GRAY); num4.setForeground(Color.WHITE);
-        num5.setBackground(Color.GRAY); num5.setForeground(Color.WHITE);
-        num6.setBackground(Color.GRAY); num6.setForeground(Color.WHITE);
-        num7.setBackground(Color.GRAY); num7.setForeground(Color.WHITE);
-        num8.setBackground(Color.GRAY); num8.setForeground(Color.WHITE);
-        num9.setBackground(Color.GRAY); num9.setForeground(Color.WHITE);
-        num0.setBackground(Color.GRAY); remainder.setForeground(Color.WHITE);
-        signs.setBackground(Color.GRAY); signs.setForeground(Color.WHITE);
-        dot.setBackground(Color.GRAY); dot.setForeground(Color.WHITE);
+        // **Segoe UI 폰트 설정**
+        Font buttonFont = new Font("Segoe UI", Font.PLAIN, 18);  // Segoe UI, 크기 18
 
-        plus.setBackground(Color.DARK_GRAY); plus.setForeground(Color.WHITE);
-        minus.setBackground(Color.DARK_GRAY); minus.setForeground(Color.WHITE);
-        multiply.setBackground(Color.DARK_GRAY); multiply.setForeground(Color.WHITE);
-        divide.setBackground(Color.DARK_GRAY); divide.setForeground(Color.WHITE);
-        remainder.setBackground(Color.DARK_GRAY); remainder.setForeground(Color.WHITE);
-        equal.setBackground(Color.DARK_GRAY); equal.setForeground(Color.WHITE);
-        clear.setBackground(Color.DARK_GRAY); clear.setForeground(Color.WHITE);
-        delete.setBackground(Color.DARK_GRAY); delete.setForeground(Color.WHITE);
+        // 넘버패드 숫자키
+        num0.setBackground(Color.GRAY); num0.setForeground(Color.WHITE); num0.setFont(buttonFont);
+        num1.setBackground(Color.GRAY); num1.setForeground(Color.WHITE); num1.setFont(buttonFont);
+        num2.setBackground(Color.GRAY); num2.setForeground(Color.WHITE); num2.setFont(buttonFont);
+        num3.setBackground(Color.GRAY); num3.setForeground(Color.WHITE); num3.setFont(buttonFont);
+        num4.setBackground(Color.GRAY); num4.setForeground(Color.WHITE); num4.setFont(buttonFont);
+        num5.setBackground(Color.GRAY); num5.setForeground(Color.WHITE); num5.setFont(buttonFont);
+        num6.setBackground(Color.GRAY); num6.setForeground(Color.WHITE); num6.setFont(buttonFont);
+        num7.setBackground(Color.GRAY); num7.setForeground(Color.WHITE); num7.setFont(buttonFont);
+        num8.setBackground(Color.GRAY); num8.setForeground(Color.WHITE); num8.setFont(buttonFont);
+        num9.setBackground(Color.GRAY); num9.setForeground(Color.WHITE); num9.setFont(buttonFont);
+        // 부호 소수점
+        signs.setBackground(Color.GRAY); signs.setForeground(Color.WHITE); signs.setFont(buttonFont);
+        dot.setBackground(Color.GRAY); dot.setForeground(Color.WHITE); dot.setFont(buttonFont);
+
+        // 넘버패드 연산자
+        plus.setBackground(Color.DARK_GRAY); plus.setForeground(Color.WHITE); plus.setFont(buttonFont);
+        minus.setBackground(Color.DARK_GRAY); minus.setForeground(Color.WHITE); minus.setFont(buttonFont);
+        multiply.setBackground(Color.DARK_GRAY); multiply.setForeground(Color.WHITE); multiply.setFont(buttonFont);
+        divide.setBackground(Color.DARK_GRAY); divide.setForeground(Color.WHITE); divide.setFont(buttonFont);
+        remainder.setBackground(Color.DARK_GRAY); remainder.setForeground(Color.WHITE); remainder.setFont(buttonFont);
+        // 결과 및 기능
+        equal.setBackground(Color.DARK_GRAY); equal.setForeground(Color.WHITE); equal.setFont(buttonFont);
+        clear.setBackground(Color.DARK_GRAY); clear.setForeground(Color.WHITE); clear.setFont(buttonFont);
+        delete.setBackground(Color.DARK_GRAY); delete.setForeground(Color.WHITE); delete.setFont(buttonFont);
 
 
 
@@ -104,7 +122,8 @@ public class MidTermCalc extends JFrame {
         add(panel, BorderLayout.CENTER);
 
         //결과창에 숫자를 추가하는 코드
-        ActionListener listenerNumPad = e -> {text.setText(text.getText() + e.getActionCommand());};
+        ActionListener listenerNumPad = e -> {
+            t1.setText(t1.getText() + e.getActionCommand());};
         num0.addActionListener(listenerNumPad);
         num1.addActionListener(listenerNumPad);
         num2.addActionListener(listenerNumPad);
@@ -117,16 +136,19 @@ public class MidTermCalc extends JFrame {
         num9.addActionListener(listenerNumPad);
         dot.addActionListener(listenerNumPad);
 
-        // @see 부호 변환 chatGPT 참조
+        //부호 변환
+        /**
+         * @see chatGPT 참조
+          */
         ActionListener listenerChangeSign = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String currentText = text.getText();
+                String currentText = t1.getText();
                 if (!currentText.isEmpty()) {
                     if (currentText.startsWith("-")) {
-                        text.setText(currentText.substring(1));  // 음수 -> 양수로 변경
+                        t1.setText(currentText.substring(1));  // 음수 -> 양수로 변경
                     } else {
-                        text.setText("-" + currentText);  // 양수 -> 음수로 변경
+                        t1.setText("-" + currentText);  // 양수 -> 음수로 변경
                     }
                 }
             }
@@ -136,15 +158,24 @@ public class MidTermCalc extends JFrame {
         // delete 버튼 구현
         ActionListener listenerDelete = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String currentText = text.getText();
+                String currentText = t1.getText();
                 if (!currentText.isEmpty()) {
-                    text.setText(currentText.substring(0, currentText.length() - 1));
+                    t1.setText(currentText.substring(0, currentText.length() - 1));
                 }
             }
         };
         delete.addActionListener(listenerDelete);
 
+        ActionListener listenerOperator = new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                operator = e.getActionCommand();
+                firstNumber = Double.parseDouble(t1.getText());
+
+
+            }
+        };
     }
+
 
     public static void main(String[] args) {
         new MidTermCalc();
