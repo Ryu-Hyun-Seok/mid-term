@@ -133,6 +133,17 @@ public class MidTermCalc extends JFrame {
         };
         signs.addActionListener(listenerChangeSign);
 
+        // delete 버튼 구현
+        ActionListener listenerDelete = new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String currentText = text.getText();
+                if (!currentText.isEmpty()) {
+                    text.setText(currentText.substring(0, currentText.length() - 1));
+                }
+            }
+        };
+        delete.addActionListener(listenerDelete);
+
     }
 
     public static void main(String[] args) {
