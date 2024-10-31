@@ -146,21 +146,13 @@ public class MidTermCalc extends JFrame {
         dot.addActionListener(listenerNumPad);
 
         //부호 변환
-        /**
-         * @see chatGPT 참조
-          */
         ActionListener listenerChangeSign = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String currentText = t1.getText();
-                if (!currentText.isEmpty()) {
-                    if (currentText.startsWith("-")) {
-                        t1.setText(currentText.substring(1));  // 음수 -> 양수로 변경
-                    } else {
-                        t1.setText("-" + currentText);  // 양수 -> 음수로 변경
-                    }
-                }
-            }
+
+                firstNumber = firstNumber * -1;
+                t1.setText(Double.toString(firstNumber));
+            };
         };
         signs.addActionListener(listenerChangeSign);
 
@@ -171,6 +163,7 @@ public class MidTermCalc extends JFrame {
                 if (!currentText.isEmpty()) {
                     t1.setText(currentText.substring(0, currentText.length() - 1));
                 }
+                firstNumber = Double.parseDouble(t1.getText());
             }
         };
         delete.addActionListener(listenerDelete);
