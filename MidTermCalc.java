@@ -11,7 +11,7 @@ public class MidTermCalc extends JFrame {
     JTextField t2 = new JTextField();
     private String operator = "";  // 현재 선택된 연산자
     private double firstNumber = 0;  // 첫 번째 숫자 저장
-    private boolean isOperatorClicked = false;  // 연산자가 클릭되었는지 여부
+    private double secondNumber = 0;
 
     /**
      * 계산기
@@ -43,6 +43,7 @@ public class MidTermCalc extends JFrame {
         t1.setFont(segoeUIFont);
         t2.setFont(segoeUIFont);
         t1.setHorizontalAlignment(JTextField.RIGHT);
+        t2.setHorizontalAlignment(JTextField.RIGHT);
 
         panel.add(t2);
         panel.add(t1);
@@ -123,7 +124,9 @@ public class MidTermCalc extends JFrame {
 
         //결과창에 숫자를 추가하는 코드
         ActionListener listenerNumPad = e -> {
-            t1.setText(t1.getText() + e.getActionCommand());};
+            t1.setText(t1.getText() + e.getActionCommand());
+            firstNumber = Double.parseDouble(t1.getText());
+        };
         num0.addActionListener(listenerNumPad);
         num1.addActionListener(listenerNumPad);
         num2.addActionListener(listenerNumPad);
@@ -166,14 +169,67 @@ public class MidTermCalc extends JFrame {
         };
         delete.addActionListener(listenerDelete);
 
+
+        //연산 기능 구현
         ActionListener listenerOperator = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 operator = e.getActionCommand();
-                firstNumber = Double.parseDouble(t1.getText());
-
+                if (t2.getText().isEmpty()) {
+                    secondNumber = firstNumber;
+                }
+                t2.setText(secondNumber + operator);
+                t1.setText(null);
 
             }
         };
+
+        plus.addActionListener(listenerOperator);
+        minus.addActionListener(listenerOperator);
+        multiply.addActionListener(listenerOperator);
+        divide.addActionListener(listenerOperator);
+
+        //클리어 기능 구현
+        ActionListener listenerClear = new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                t1.setText(null);
+                t2.setText(null);
+                firstNumber = 0; secondNumber = 0;
+            }
+        };
+        clear.addActionListener(listenerClear);
+
+        //결과 기능 구현
+        ActionListener listenerEqual = new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                t2.setText(secondNumber + operator + firstNumber);
+                double result;
+                switch (operator) {
+                    case "+":
+                        result = firstNumber + secondNumber;
+                        break;
+                    case "-":
+                        result = firstNumber - secondNumber;
+                        break;
+                    case "×":
+                        result = firstNumber * secondNumber;
+                        break;
+                    case "÷":
+                        if (secondNumber == 0) {
+                            t1.setText("오류");  // 0으로 나누기 방지
+                            return;
+                        }
+                        result = firstNumber / secondNumber;
+                        break;
+                    case "%":
+                        result = firstNumber % secondNumber;
+                        break;
+                    default:
+                        result = secondNumber;
+                }
+                t1.setText(Double.toString(result));
+            }
+        };
+        equal.addActionListener(listenerEqual);
     }
 
 
