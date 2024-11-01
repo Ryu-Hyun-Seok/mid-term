@@ -8,7 +8,9 @@ import javax.swing.*;
  */
 public class MidTermCalc extends JFrame {
     JTextField t1 = new JTextField();
-    JTextField t2 = new JTextField();
+    JTextField tFirstNum = new JTextField();
+    JTextField tSeconNum = new JTextField();
+    JTextField tOperator = new JTextField();
     private String operator = "";  // 현재 선택된 연산자
     private double firstNumber = 0;  // 첫 번째 숫자 저장
     private double secondNumber = 0;
@@ -31,23 +33,29 @@ public class MidTermCalc extends JFrame {
      * 계산결과 표시
      */
     void showNorth() {
-        JPanel panel = new JPanel(new GridLayout(2,1));
+        JPanel panel = new JPanel(new GridLayout(2,2));
         //숫자창
         t1 = new JTextField(25);
-        t2 = new JTextField(25);
+        tFirstNum = new JTextField(25);
+        tSeconNum = new JTextField(25);
+        tOperator = new JTextField(25);
+
         t1.setEditable(false);
-        t2.setEditable(false);
+        tFirstNum.setEditable(false);
+        tSeconNum.setEditable(false);
+
         panel.setBackground(Color.darkGray);
 
         Font segoeUIFont = new Font("Segoe UI", Font.PLAIN, 24);
 
         t1.setFont(segoeUIFont);
-        t2.setFont(segoeUIFont);
+        tFirstNum.setFont(segoeUIFont);
         t1.setHorizontalAlignment(JTextField.RIGHT);
-        t2.setHorizontalAlignment(JTextField.RIGHT);
+        tFirstNum.setHorizontalAlignment(JTextField.RIGHT);
 
-        panel.add(t2);
-        panel.add(t1);
+
+        panel.add(tFirstNum); panel.add(tSeconNum);
+        panel.add(t1); panel.add(tOperator);
 
 
 
@@ -114,7 +122,7 @@ public class MidTermCalc extends JFrame {
 
 
 
-        panel.add(remainder); panel.add(clear); panel.add(divide); panel.add(delete);
+        panel.add(remainder); panel.add(clear); panel.add(delete); panel.add(divide);
         panel.add(num7); panel.add(num8); panel.add(num9); panel.add(multiply);
         panel.add(num4); panel.add(num5); panel.add(num6); panel.add(minus);
         panel.add(num1); panel.add(num2); panel.add(num3); panel.add(plus);
@@ -127,7 +135,7 @@ public class MidTermCalc extends JFrame {
         ActionListener listenerNumPad = e -> {
             if (operator == "=") {
                 t1.setText(null);
-                t2.setText(null);
+                tFirstNum.setText(null);
                 firstNumber = 0; secondNumber = 0;
                 operator = "";
             }
@@ -178,33 +186,9 @@ public class MidTermCalc extends JFrame {
         ActionListener listenerOperator = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
 
-                if (turn == true){
+                {
                     operator = e.getActionCommand();
-                    t2.setText(secondNumber + operator);
-                }
-
-                if (turn == false) {
-                    turn = true;
-                    switch (operator) {
-                        case "+":
-                            secondNumber = secondNumber + firstNumber;
-                            break;
-                        case "-":
-                            secondNumber = secondNumber - firstNumber;
-                            break;
-                        case "×":
-                            secondNumber = secondNumber * firstNumber;
-                            break;
-                        case "÷":
-                            secondNumber = secondNumber / firstNumber;
-                            break;
-                        default:
-                            secondNumber = firstNumber;
-
-                    }
-                    operator = e.getActionCommand();
-                    t2.setText(Double.toString(secondNumber) + operator);
-                    t1.setText(Double.toString(secondNumber));
+                    tOperator.setText(operator);
                 }
 
             }
@@ -219,7 +203,7 @@ public class MidTermCalc extends JFrame {
         ActionListener listenerClear = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 t1.setText(null);
-                t2.setText(null);
+                tFirstNum.setText(null);
                 firstNumber = 0; secondNumber = 0;
             }
         };
@@ -228,7 +212,7 @@ public class MidTermCalc extends JFrame {
         //결과 기능 구현
         ActionListener listenerEqual = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                t2.setText(secondNumber + operator + firstNumber);
+                tFirstNum.setText(secondNumber + operator + firstNumber);
                 double result;
                 switch (operator) {
                     case "+":
