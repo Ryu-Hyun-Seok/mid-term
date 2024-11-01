@@ -8,6 +8,7 @@ import javax.swing.*;
  */
 public class MidTermCalc extends JFrame {
     JTextField t1 = new JTextField();
+    JTextField t2 = new JTextField();
     JTextField tFirstNum = new JTextField();
     JTextField tSeconNum = new JTextField();
     JTextField tOperator = new JTextField();
@@ -33,14 +34,16 @@ public class MidTermCalc extends JFrame {
      * 계산결과 표시
      */
     void showNorth() {
-        JPanel panel = new JPanel(new GridLayout(2,2));
+        JPanel panel = new JPanel(new GridLayout(2,3));
         //숫자창
         t1 = new JTextField(25);
+        t2 = new JTextField(25);
         tFirstNum = new JTextField(25);
         tSeconNum = new JTextField(25);
         tOperator = new JTextField(25);
 
         t1.setEditable(false);
+        t2.setEditable(false);
         tFirstNum.setEditable(true);
         tSeconNum.setEditable(true);
         tOperator.setEditable(false);
@@ -53,6 +56,8 @@ public class MidTermCalc extends JFrame {
         Font segoeUIFont = new Font("Segoe UI", Font.PLAIN, 24);
 
         t1.setFont(segoeUIFont);
+        t2.setFont(segoeUIFont);
+        t2.setHorizontalAlignment(SwingConstants.RIGHT);
         tFirstNum.setFont(segoeUIFont);
         t1.setHorizontalAlignment(JTextField.RIGHT);
         tFirstNum.setHorizontalAlignment(JTextField.RIGHT);
@@ -207,40 +212,8 @@ public class MidTermCalc extends JFrame {
                 String currentText = t1.getText();
                 double currentNum = Double.parseDouble(currentText);
 
-
-                if (setSeconNum == 1) {
-                    firstNumber = Double.parseDouble(tFirstNum.getText());
-                    secondNumber = Double.parseDouble(tSeconNum.getText());
-                    double result;
-                    operator = tOperator.getText();
-                    switch (operator){
-                        case "+":
-                            result = firstNumber + secondNumber;
-                            break;
-                        case "-":
-                            result = firstNumber - secondNumber;
-                            break;
-                        case "×":
-                            result = firstNumber * secondNumber;
-                            break;
-                        case "÷":
-                            if (secondNumber == 0) {
-                                t1.setText("오류");  // 0으로 나누기 방지
-                                return;
-                            }
-                            result = firstNumber / secondNumber;
-                            break;
-                        default:
-                            result = secondNumber;
-                    }
-                    t1.setText(Double.toString(result));
-
-                }
-                if(setSeconNum == 2) {
-                    double result2;
-
-                    //result 결과창에 출력
-
+                if (setSeconNum == 2) {
+                    setSeconNum = 1;
                 }
 
                 if(setSeconNum == 0){
@@ -310,6 +283,7 @@ public class MidTermCalc extends JFrame {
                 //result 결과창에 출력
                 t1.setText(String.valueOf(result));
                 tFirstNum.setText(String.valueOf(result));
+                setSeconNum = 1;
             }
         };
         equal.addActionListener(listenerEqual);
