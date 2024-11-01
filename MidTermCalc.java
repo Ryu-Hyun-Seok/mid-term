@@ -152,8 +152,17 @@ public class MidTermCalc extends JFrame {
 
         //텍스트필드에 숫자를 추가하는 코드
         ActionListener listenerNumPad = e -> {
+            if (setNum ==3) {
+                t1.setText("0");
+                screen1.setText("");
+                setNum = 0;
+            }
             if (setNum == 1) {
                 t1.setText("");
+                setNum = 2;
+            }
+            if (setNum == 4) {
+                t1.setText("0");
                 setNum = 2;
             }
 
@@ -200,23 +209,30 @@ public class MidTermCalc extends JFrame {
         // (delete 버튼) 구현
         ActionListener listenerDelete = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String currentText = t1.getText();
-                if (!currentText.isEmpty()) {
-                    t1.setText(currentText.substring(0, currentText.length() - 1));
-                    currentText = t1.getText();
-                    if (currentText.isEmpty()){
-                        t1.setText("0");
+
+                if (setNum == 3) {
+                    screen1.setText("");
+                } else {
+                    String currentText = t1.getText();
+                    if (!currentText.isEmpty()) {
+                        t1.setText(currentText.substring(0, currentText.length() - 1));
+                        currentText = t1.getText();
+                        if (currentText.isEmpty()){
+                            t1.setText("0");
+                        }
+                    }
+                    else {t1.setText("0");}
+
+
+                    if (setNum == 2) {
+                        tSeconNum.setText(t1.getText());
+                    } else {
+                        tFirstNum.setText(t1.getText());
                     }
                 }
-                else {t1.setText("0");}
 
 
-                if (setNum == 2) {
-                    tSeconNum.setText(t1.getText());
-                } else {
-                    tFirstNum.setText(t1.getText());
-                }
-            }
+        }
 
 
         };
@@ -231,6 +247,9 @@ public class MidTermCalc extends JFrame {
 
                 if (setNum == 2) {
                     setNum = 1;
+                }
+                if (setNum == 3) {
+                    setNum = 4;
                 }
 
                 if(setNum == 0){
@@ -304,7 +323,7 @@ public class MidTermCalc extends JFrame {
                 t1.setText(String.valueOf(result));
 
                 tFirstNum.setText(String.valueOf(result));
-                setNum = 0;
+                setNum = 3;
 
             }
         };
