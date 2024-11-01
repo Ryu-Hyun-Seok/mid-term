@@ -198,6 +198,7 @@ public class MidTermCalc extends JFrame {
         ActionListener listenerChangeSign = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if (setNum == 1 || setNum == 4) {setNum = 2;}
                 if (setNum == 2) {
                     secondNumber = Double.parseDouble(t1.getText());
                     secondNumber = secondNumber * -1;
@@ -221,6 +222,7 @@ public class MidTermCalc extends JFrame {
         ActionListener listenerDelete = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
 
+                if (setNum == 1 || setNum == 4) {setNum = 2;}
                 if (setNum == 3) {
                     screen1.setText("");
                 } else {
