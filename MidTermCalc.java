@@ -34,7 +34,7 @@ public class MidTermCalc extends JFrame {
      * 계산결과 표시
      */
     void showNorth() {
-        JPanel panel = new JPanel(new GridLayout(2,3));
+        JPanel panel = new JPanel(new GridLayout(0,3));
         //숫자창
         t1 = new JTextField(25);
         t2 = new JTextField(25);
@@ -67,8 +67,8 @@ public class MidTermCalc extends JFrame {
         tOperator.setHorizontalAlignment(JTextField.RIGHT);
 
 
-        panel.add(tFirstNum); panel.add(tSeconNum);
-        panel.add(t1); panel.add(tOperator);
+        panel.add(tFirstNum); panel.add(tOperator); panel.add(tSeconNum);
+        panel.add(t1);
 
 
 
@@ -278,7 +278,7 @@ public class MidTermCalc extends JFrame {
                         result = firstNumber / secondNumber;
                         break;
                     default:
-                        result = secondNumber;
+                        result = Double.parseDouble(t1.getText());
                 }
                 //result 결과창에 출력
                 t1.setText(String.valueOf(result));
