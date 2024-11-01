@@ -246,7 +246,6 @@ public class MidTermCalc extends JFrame {
                     }
                 }
         }
-
         };
         delete.addActionListener(listenerDelete);
 
@@ -329,7 +328,8 @@ public class MidTermCalc extends JFrame {
                         break;
                     case "÷":
                         if (secondNumber == 0) {
-                            t1.setText("오류");  // 0으로 나누기 방지
+                            t1.setText("You can't divide it by zero!");  // 0으로 나누기 방지
+                            setNum = 3;
                             return;
                         }
                         result = firstNumber / secondNumber;
