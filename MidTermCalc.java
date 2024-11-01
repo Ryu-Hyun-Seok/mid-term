@@ -198,10 +198,21 @@ public class MidTermCalc extends JFrame {
         ActionListener listenerChangeSign = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                firstNumber = Double.parseDouble(t1.getText());
-                firstNumber = firstNumber * -1;
-                tFirstNum.setText(String.valueOf(firstNumber));
-                t1.setText(tFirstNum.getText());
+                if (setNum == 2) {
+                    secondNumber = Double.parseDouble(t1.getText());
+                    secondNumber = secondNumber * -1;
+                    tSeconNum.setText(String.valueOf(secondNumber));
+                } else {
+                    firstNumber = Double.parseDouble(t1.getText());
+                    firstNumber = firstNumber * -1;
+                    tFirstNum.setText(String.valueOf(firstNumber));
+                }
+
+                if (setNum == 2) {
+                    t1.setText(tSeconNum.getText());
+                } else {
+                    t1.setText(tFirstNum.getText());
+                }
             };
         };
         signs.addActionListener(listenerChangeSign);
