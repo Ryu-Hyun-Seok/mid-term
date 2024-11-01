@@ -36,7 +36,9 @@ public class MidTermCalc extends JFrame {
     void showNorth() {
         JPanel panel = new JPanel(new GridLayout(1,2));
         JPanel p1 = new JPanel(new GridLayout(2,1));
-        JPanel p2 = new JPanel(new GridLayout(0,3));
+
+        //JPanel p2 = new JPanel(new GridLayout(0,3));
+
         //숫자창
         t1 = new JTextField(25);
         screen1 = new JTextField(50);
@@ -73,9 +75,9 @@ public class MidTermCalc extends JFrame {
         tOperator.setHorizontalAlignment(JTextField.RIGHT);
 
         p1.add(screen1); p1.add(t1);
-        p2.add(tFirstNum); p2.add(tOperator); p2.add(tSeconNum);
-
-        panel.add(p1); panel.add(p2);
+        panel.add(p1);
+        //p2.add(tFirstNum); p2.add(tOperator); p2.add(tSeconNum);
+        //panel.add(p2);
 
 
         add(panel, BorderLayout.NORTH);
