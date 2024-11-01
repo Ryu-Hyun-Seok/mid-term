@@ -15,7 +15,7 @@ public class MidTermCalc extends JFrame {
     private String operator = "";  // 현재 선택된 연산자
     private double firstNumber = 0;  // 첫 번째 숫자 저장
     private double secondNumber = 0;
-    private int setSeconNum = 0;
+    private int setNum = 0;
 
     /**
      * 계산기
@@ -152,11 +152,10 @@ public class MidTermCalc extends JFrame {
 
         //텍스트필드에 숫자를 추가하는 코드
         ActionListener listenerNumPad = e -> {
-            if (setSeconNum == 1) {
+            if (setNum == 1) {
                 t1.setText("");
-                setSeconNum = 2;
+                setNum = 2;
             }
-
 
             String currentNum = e.getActionCommand();
             String currentText = t1.getText();
@@ -168,7 +167,7 @@ public class MidTermCalc extends JFrame {
             }
             t1.setText(currentText + currentNum);
 
-            if(setSeconNum == 2) {
+            if(setNum == 2) {
                 tSeconNum.setText(t1.getText());
             } else {
                 tFirstNum.setText(t1.getText());
@@ -210,7 +209,16 @@ public class MidTermCalc extends JFrame {
                     }
                 }
                 else {t1.setText("0");}
+
+
+                if (setNum == 2) {
+                    tSeconNum.setText(t1.getText());
+                } else {
+                    tFirstNum.setText(t1.getText());
+                }
             }
+
+
         };
         delete.addActionListener(listenerDelete);
 
@@ -221,13 +229,13 @@ public class MidTermCalc extends JFrame {
                 String currentText = t1.getText();
                 double currentNum = Double.parseDouble(currentText);
 
-                if (setSeconNum == 2) {
-                    setSeconNum = 1;
+                if (setNum == 2) {
+                    setNum = 1;
                 }
 
-                if(setSeconNum == 0){
+                if(setNum == 0){
                     tFirstNum.setText(currentText);
-                    setSeconNum =1;
+                    setNum =1;
                 }
                 {
                     operator = e.getActionCommand();
@@ -251,7 +259,7 @@ public class MidTermCalc extends JFrame {
                 tFirstNum.setText("0");
                 tSeconNum.setText("0");
                 tOperator.setText("");
-                firstNumber = 0; secondNumber = 0; operator = ""; setSeconNum = 0;
+                firstNumber = 0; secondNumber = 0; operator = ""; setNum = 0;
             }
         };
         clear.addActionListener(listenerClearAll);
@@ -296,7 +304,7 @@ public class MidTermCalc extends JFrame {
                 t1.setText(String.valueOf(result));
 
                 tFirstNum.setText(String.valueOf(result));
-                setSeconNum = 1;
+                setNum = 0;
 
             }
         };
