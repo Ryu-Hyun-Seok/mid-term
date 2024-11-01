@@ -136,9 +136,17 @@ public class MidTermCalc extends JFrame {
 
         add(panel, BorderLayout.CENTER);
 
-        //결과창에 숫자를 추가하는 코드
+        //텍스트필드에 숫자를 추가하는 코드
         ActionListener listenerNumPad = e -> {
-
+            String currentNum = e.getActionCommand();
+            String currentText = t1.getText();
+            if (currentText.equals("0")) {
+                currentText = "";
+                if (currentNum.equals(".")){
+                    currentText = "0";
+                }
+            }
+            t1.setText(currentText + currentNum);
         };
         num0.addActionListener(listenerNumPad);
         num1.addActionListener(listenerNumPad);
