@@ -8,7 +8,7 @@ import javax.swing.*;
  */
 public class MidTermCalc extends JFrame {
     JTextField t1 = new JTextField();
-    JTextField t2 = new JTextField();
+    JTextField screen1 = new JTextField();
     JTextField tFirstNum = new JTextField();
     JTextField tSeconNum = new JTextField();
     JTextField tOperator = new JTextField();
@@ -34,20 +34,25 @@ public class MidTermCalc extends JFrame {
      * 계산결과 표시
      */
     void showNorth() {
-        JPanel panel = new JPanel(new GridLayout(0,3));
+        JPanel panel = new JPanel(new GridLayout(1,2));
+        JPanel p1 = new JPanel(new GridLayout(2,1));
+        JPanel p2 = new JPanel(new GridLayout(0,3));
         //숫자창
         t1 = new JTextField(25);
-        t2 = new JTextField(25);
+        screen1 = new JTextField(50);
         tFirstNum = new JTextField(25);
         tSeconNum = new JTextField(25);
         tOperator = new JTextField(25);
 
         t1.setEditable(false);
-        t2.setEditable(false);
+        screen1.setEditable(false);
         tFirstNum.setEditable(true);
         tSeconNum.setEditable(true);
         tOperator.setEditable(false);
 
+
+
+        t1.setText("0");
         tFirstNum.setText("0");
         tSeconNum.setText("0");
 
@@ -55,21 +60,22 @@ public class MidTermCalc extends JFrame {
 
         Font segoeUIFont = new Font("Segoe UI", Font.PLAIN, 24);
 
-        t1.setFont(segoeUIFont);
-        t2.setFont(segoeUIFont);
-        t2.setHorizontalAlignment(SwingConstants.RIGHT);
+        t1.setFont(segoeUIFont); t1.setHorizontalAlignment(JTextField.RIGHT);
+        screen1.setFont(segoeUIFont); screen1.setHorizontalAlignment(SwingConstants.RIGHT);
+
+
+
         tFirstNum.setFont(segoeUIFont);
-        t1.setHorizontalAlignment(JTextField.RIGHT);
         tFirstNum.setHorizontalAlignment(JTextField.RIGHT);
         tSeconNum.setFont(segoeUIFont);
         tSeconNum.setHorizontalAlignment(JTextField.RIGHT);
         tOperator.setFont(segoeUIFont);
         tOperator.setHorizontalAlignment(JTextField.RIGHT);
 
+        p1.add(screen1); p1.add(t1);
+        p2.add(tFirstNum); p2.add(tOperator); p2.add(tSeconNum);
 
-        panel.add(tFirstNum); panel.add(tOperator); panel.add(tSeconNum);
-        panel.add(t1);
-
+        panel.add(p1); panel.add(p2);
 
 
         add(panel, BorderLayout.NORTH);
@@ -164,6 +170,8 @@ public class MidTermCalc extends JFrame {
 
             if(setSeconNum == 2) {
                 tSeconNum.setText(t1.getText());
+            } else {
+                tFirstNum.setText(t1.getText());
             }
         };
         num0.addActionListener(listenerNumPad);
@@ -182,9 +190,10 @@ public class MidTermCalc extends JFrame {
         ActionListener listenerChangeSign = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                firstNumber = Double.parseDouble(t1.getText());
                 firstNumber = firstNumber * -1;
-                t1.setText(Double.toString(firstNumber));
+                tFirstNum.setText(String.valueOf(firstNumber));
+                t1.setText(tFirstNum.getText());
             };
         };
         signs.addActionListener(listenerChangeSign);
@@ -223,6 +232,7 @@ public class MidTermCalc extends JFrame {
                 {
                     operator = e.getActionCommand();
                     tOperator.setText(operator);
+                    screen1.setText(tFirstNum.getText() + tOperator.getText());
                 }
 
             }
@@ -237,6 +247,7 @@ public class MidTermCalc extends JFrame {
         ActionListener listenerClearAll = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 t1.setText("0");
+                screen1.setText("");
                 tFirstNum.setText("0");
                 tSeconNum.setText("0");
                 tOperator.setText("");
@@ -281,9 +292,12 @@ public class MidTermCalc extends JFrame {
                         result = Double.parseDouble(t1.getText());
                 }
                 //result 결과창에 출력
+                screen1.setText(String.valueOf(firstNumber) + tOperator.getText() + tSeconNum.getText() + "=");
                 t1.setText(String.valueOf(result));
+
                 tFirstNum.setText(String.valueOf(result));
                 setSeconNum = 1;
+
             }
         };
         equal.addActionListener(listenerEqual);
