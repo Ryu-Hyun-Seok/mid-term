@@ -41,8 +41,9 @@ public class MidTermCalc extends JFrame {
         tOperator = new JTextField(25);
 
         t1.setEditable(false);
-        tFirstNum.setEditable(false);
-        tSeconNum.setEditable(false);
+        tFirstNum.setEditable(true);
+        tSeconNum.setEditable(true);
+        tOperator.setEditable(false);
 
         panel.setBackground(Color.darkGray);
 
@@ -52,6 +53,10 @@ public class MidTermCalc extends JFrame {
         tFirstNum.setFont(segoeUIFont);
         t1.setHorizontalAlignment(JTextField.RIGHT);
         tFirstNum.setHorizontalAlignment(JTextField.RIGHT);
+        tSeconNum.setFont(segoeUIFont);
+        tSeconNum.setHorizontalAlignment(JTextField.RIGHT);
+        tOperator.setFont(segoeUIFont);
+        tOperator.setHorizontalAlignment(JTextField.RIGHT);
 
 
         panel.add(tFirstNum); panel.add(tSeconNum);
@@ -133,18 +138,7 @@ public class MidTermCalc extends JFrame {
 
         //결과창에 숫자를 추가하는 코드
         ActionListener listenerNumPad = e -> {
-            if (operator == "=") {
-                t1.setText(null);
-                tFirstNum.setText(null);
-                firstNumber = 0; secondNumber = 0;
-                operator = "";
-            }
-            if (turn == true) {
-                t1.setText(null);
-                turn = false;
-            }
-            t1.setText(t1.getText() + e.getActionCommand());
-            firstNumber = Double.parseDouble(t1.getText());
+
         };
         num0.addActionListener(listenerNumPad);
         num1.addActionListener(listenerNumPad);
@@ -169,20 +163,24 @@ public class MidTermCalc extends JFrame {
         };
         signs.addActionListener(listenerChangeSign);
 
-        // delete 버튼 구현
+        // (delete 버튼) 구현
         ActionListener listenerDelete = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String currentText = t1.getText();
                 if (!currentText.isEmpty()) {
                     t1.setText(currentText.substring(0, currentText.length() - 1));
+                    currentText = t1.getText();
+                    if (currentText.isEmpty()){
+                        t1.setText("0");
+                    }
                 }
-                firstNumber = Double.parseDouble(t1.getText());
+                else {t1.setText("0");}
             }
         };
         delete.addActionListener(listenerDelete);
 
 
-        //연산 기능 구현
+        //연산자 선택
         ActionListener listenerOperator = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
 
@@ -199,43 +197,47 @@ public class MidTermCalc extends JFrame {
         multiply.addActionListener(listenerOperator);
         divide.addActionListener(listenerOperator);
 
-        //클리어 기능 구현
+        //(C 버튼) 기능 구현
         ActionListener listenerClear = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 t1.setText(null);
                 tFirstNum.setText(null);
-                firstNumber = 0; secondNumber = 0;
+                tSeconNum.setText(null);
+                tOperator.setText(null);
+                firstNumber = 0; secondNumber = 0; operator = "";
             }
         };
         clear.addActionListener(listenerClear);
 
-        //결과 기능 구현
+        //(= 버튼) 기능 구현
         ActionListener listenerEqual = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                tFirstNum.setText(secondNumber + operator + firstNumber);
+                firstNumber = Double.parseDouble(tFirstNum.getText());
+                secondNumber = Double.parseDouble(tSeconNum.getText());
+                operator = tOperator.getText();
                 double result;
                 switch (operator) {
                     case "+":
-                        result = secondNumber + firstNumber;
+                        result = firstNumber + secondNumber;
                         break;
                     case "-":
-                        result = secondNumber - firstNumber;
+                        result = firstNumber - secondNumber;
                         break;
                     case "×":
-                        result = secondNumber * firstNumber;
+                        result = firstNumber * secondNumber;
                         break;
                     case "÷":
-                        if (firstNumber == 0) {
-                            t1.setText("You can't divide it by zero");  // 0으로 나누기 방지
+                        if (secondNumber == 0) {
+                            t1.setText("오류");  // 0으로 나누기 방지
                             return;
                         }
-                        result = secondNumber / firstNumber;
+                        result = firstNumber / secondNumber;
                         break;
                     default:
                         result = secondNumber;
                 }
-                t1.setText(Double.toString(result));
-                operator = e.getActionCommand();
+                //result 결과창에 출력
+                t1.setText(String.valueOf(result));
             }
         };
         equal.addActionListener(listenerEqual);
