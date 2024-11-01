@@ -14,7 +14,7 @@ public class MidTermCalc extends JFrame {
     private String operator = "";  // 현재 선택된 연산자
     private double firstNumber = 0;  // 첫 번째 숫자 저장
     private double secondNumber = 0;
-    private boolean turn = false;
+    private int setSeconNum = 0;
 
     /**
      * 계산기
@@ -44,6 +44,9 @@ public class MidTermCalc extends JFrame {
         tFirstNum.setEditable(true);
         tSeconNum.setEditable(true);
         tOperator.setEditable(false);
+
+        tFirstNum.setText("0");
+        tSeconNum.setText("0");
 
         panel.setBackground(Color.darkGray);
 
@@ -90,7 +93,7 @@ public class MidTermCalc extends JFrame {
         JButton minus = new JButton("-");
         JButton multiply = new JButton("×");
         JButton divide = new JButton("÷");
-        JButton remainder = new JButton("%");
+        JButton ce = new JButton("CE");
         JButton equal = new JButton("=");
         JButton clear = new JButton("C");
         JButton delete = new JButton("←");
@@ -118,7 +121,7 @@ public class MidTermCalc extends JFrame {
         minus.setBackground(Color.DARK_GRAY); minus.setForeground(Color.WHITE); minus.setFont(buttonFont);
         multiply.setBackground(Color.DARK_GRAY); multiply.setForeground(Color.WHITE); multiply.setFont(buttonFont);
         divide.setBackground(Color.DARK_GRAY); divide.setForeground(Color.WHITE); divide.setFont(buttonFont);
-        remainder.setBackground(Color.DARK_GRAY); remainder.setForeground(Color.WHITE); remainder.setFont(buttonFont);
+        ce.setBackground(Color.DARK_GRAY); ce.setForeground(Color.WHITE); ce.setFont(buttonFont);
         // 결과 및 기능
         equal.setBackground(Color.DARK_GRAY); equal.setForeground(Color.WHITE); equal.setFont(buttonFont);
         clear.setBackground(Color.DARK_GRAY); clear.setForeground(Color.WHITE); clear.setFont(buttonFont);
@@ -127,7 +130,7 @@ public class MidTermCalc extends JFrame {
 
 
 
-        panel.add(remainder); panel.add(clear); panel.add(delete); panel.add(divide);
+        panel.add(ce); panel.add(clear); panel.add(delete); panel.add(divide);
         panel.add(num7); panel.add(num8); panel.add(num9); panel.add(multiply);
         panel.add(num4); panel.add(num5); panel.add(num6); panel.add(minus);
         panel.add(num1); panel.add(num2); panel.add(num3); panel.add(plus);
@@ -138,15 +141,25 @@ public class MidTermCalc extends JFrame {
 
         //텍스트필드에 숫자를 추가하는 코드
         ActionListener listenerNumPad = e -> {
+            if (setSeconNum == 1) {
+                t1.setText("");
+                setSeconNum = 2;
+            }
+
+
             String currentNum = e.getActionCommand();
             String currentText = t1.getText();
-            if (currentText.equals("0")) {
+            if (currentText.equals("0") || currentText.equals("0.0")) {
                 currentText = "";
                 if (currentNum.equals(".")){
                     currentText = "0";
                 }
             }
             t1.setText(currentText + currentNum);
+
+            if(setSeconNum == 2) {
+                tSeconNum.setText(t1.getText());
+            }
         };
         num0.addActionListener(listenerNumPad);
         num1.addActionListener(listenerNumPad);
@@ -191,7 +204,49 @@ public class MidTermCalc extends JFrame {
         //연산자 선택
         ActionListener listenerOperator = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                String currentText = t1.getText();
+                double currentNum = Double.parseDouble(currentText);
 
+
+                if (setSeconNum == 1) {
+                    firstNumber = Double.parseDouble(tFirstNum.getText());
+                    secondNumber = Double.parseDouble(tSeconNum.getText());
+                    double result;
+                    operator = tOperator.getText();
+                    switch (operator){
+                        case "+":
+                            result = firstNumber + secondNumber;
+                            break;
+                        case "-":
+                            result = firstNumber - secondNumber;
+                            break;
+                        case "×":
+                            result = firstNumber * secondNumber;
+                            break;
+                        case "÷":
+                            if (secondNumber == 0) {
+                                t1.setText("오류");  // 0으로 나누기 방지
+                                return;
+                            }
+                            result = firstNumber / secondNumber;
+                            break;
+                        default:
+                            result = secondNumber;
+                    }
+                    t1.setText(Double.toString(result));
+
+                }
+                if(setSeconNum == 2) {
+                    double result2;
+
+                    //result 결과창에 출력
+
+                }
+
+                if(setSeconNum == 0){
+                    tFirstNum.setText(currentText);
+                    setSeconNum =1;
+                }
                 {
                     operator = e.getActionCommand();
                     tOperator.setText(operator);
@@ -206,16 +261,24 @@ public class MidTermCalc extends JFrame {
         divide.addActionListener(listenerOperator);
 
         //(C 버튼) 기능 구현
-        ActionListener listenerClear = new ActionListener() {
+        ActionListener listenerClearAll = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                t1.setText(null);
-                tFirstNum.setText(null);
-                tSeconNum.setText(null);
-                tOperator.setText(null);
-                firstNumber = 0; secondNumber = 0; operator = "";
+                t1.setText("0");
+                tFirstNum.setText("0");
+                tSeconNum.setText("0");
+                tOperator.setText("");
+                firstNumber = 0; secondNumber = 0; operator = ""; setSeconNum = 0;
             }
         };
-        clear.addActionListener(listenerClear);
+        clear.addActionListener(listenerClearAll);
+
+        //(ce 버튼) 구현
+        ActionListener listenerClear = new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                t1.setText("0");
+            }
+        };
+        ce.addActionListener(listenerClear);
 
         //(= 버튼) 기능 구현
         ActionListener listenerEqual = new ActionListener() {
@@ -246,6 +309,7 @@ public class MidTermCalc extends JFrame {
                 }
                 //result 결과창에 출력
                 t1.setText(String.valueOf(result));
+                tFirstNum.setText(String.valueOf(result));
             }
         };
         equal.addActionListener(listenerEqual);
