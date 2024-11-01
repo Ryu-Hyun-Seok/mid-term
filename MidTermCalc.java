@@ -230,10 +230,7 @@ public class MidTermCalc extends JFrame {
                         tFirstNum.setText(t1.getText());
                     }
                 }
-
-
         }
-
 
         };
         delete.addActionListener(listenerDelete);
@@ -244,6 +241,7 @@ public class MidTermCalc extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String currentText = t1.getText();
                 double currentNum = Double.parseDouble(currentText);
+                tSeconNum.setText(String.valueOf(currentNum));
 
                 if (setNum == 2) {
                     setNum = 1;
@@ -287,6 +285,12 @@ public class MidTermCalc extends JFrame {
         ActionListener listenerClear = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 t1.setText("0");
+
+                if (setNum ==2){
+                    tSeconNum.setText(t1.getText());
+                } else {
+                    tFirstNum.setText(t1.getText());
+                }
             }
         };
         ce.addActionListener(listenerClear);
